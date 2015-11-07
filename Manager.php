@@ -90,7 +90,7 @@ class Manager{
 
     $service = $this->services[$name];
 
-    if(isset($service['factory'])){
+    if(is_array($service) && isset($service['factory'])){
       $shared = $service['shared'];
       $service = call_user_func_array($service['factory'], [$this]);
       if($shared){
