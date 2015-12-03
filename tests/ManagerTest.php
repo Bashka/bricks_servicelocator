@@ -98,4 +98,38 @@ class ManagerTest extends \PHPUnit_Framework_TestCase{
   public function testGet_shouldNullReturnIsServiceNotFound(){
     $this->assertNull($this->manager->get('service'));
   }
+
+
+  /**
+   * Должен проверять наличие сервиса в хранилище.
+   */
+  public function testOffsetExists(){
+    $this->manager->set('service', 'test');
+    $this->assertTrue(isset($this->manager['service']));
+    $this->assertFalse(isset($this->manager['test']));
+  }
+
+  /**
+   * Должен предоставлять сервис.
+   */
+  public function testOffsetGet(){
+    $this->manager->set('service', 'test');
+    $this->assertEquals('test', $this->manager['service']);
+  }
+
+  /**
+   * Должен регистрировать сервис в хранилище.
+   */
+  public function testOffsetSet(){
+    $this->manager['service'] = 'test';
+    $this->assertEquals('test', $this->manager->get('service'));
+  }
+
+  /**
+   * Должен выбрасывать исключение.
+   */
+  public function testOffsetUnset(){
+    $this->setExpectedException(get_class(new \RuntimeException));
+    unset($this->manager['service']);
+  }
 }

@@ -6,7 +6,7 @@ namespace Bricks\ServiceLocator;
  *
  * @author Artur Sh. Mamedbekov
  */
-class Manager{
+class Manager implements \ArrayAccess{
   /**
    * @var array Массив доступных сервисов.
    */
@@ -99,5 +99,24 @@ class Manager{
     }
 
     return $service;
+  }
+
+  public function offsetExists($offset){
+    return $this->has($offset);
+  }
+
+  public function offsetGet($offset){
+    return $this->get($offset);
+  }
+
+  public function offsetSet($offset, $value){
+    $this->set($offset, $value);
+  }
+
+  /**
+   * Не реализовано.
+   */
+  public function offsetUnset($offset){
+    throw new \RuntimeException('You can not remove the service');
   }
 }
